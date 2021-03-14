@@ -1,0 +1,116 @@
+{
+  "locaciones": [
+    {
+      "id": 1,
+      "name": "Farm",
+      "cooldown": 60,
+      "goldEarn": {
+        "min": 0,
+        "max": {
+          "level1": 20,
+          "level2": 40,
+          "level3": 80,
+          "level4": 160,
+          "level5": 320
+        }
+      },
+      "goldLost": {
+        "level1": 20,
+        "level2": 40,
+        "level3": 80,
+        "level4": 160,
+        "level5": 320
+      },
+      "costUpgrade": {
+        "level1": 50,
+        "level2": 100,
+        "level3": 200,
+        "level4": 400
+      }
+    },
+    {
+      "id": 2,
+      "name": "Cave",
+      "cooldown": 30,
+      "goldEarn": {
+        "min": 0,
+        "max": {
+          "level1": 10,
+          "level2": 30,
+          "level3": 60,
+          "level4": 120,
+          "level5": 240
+        }
+      },
+      "goldLost": {
+        "level1": 5,
+        "level2": 20,
+        "level3": 40,
+        "level4": 80,
+        "level5": 160
+      },
+      "costUpgrade": {
+        "level1": 25,
+        "level2": 75,
+        "level3": 150,
+        "level4": 250
+      }
+    },
+    {
+      "id": 3,
+      "name": "House",
+      "cooldown": 15,
+      "goldEarn": {
+        "min": 1,
+        "max": {
+          "level1": 5,
+          "level2": 10,
+          "level3": 20,
+          "level4": 40,
+          "level5": 80
+        }
+      },
+      "goldLost": {
+        "level1": 0,
+        "level2": 0,
+        "level3": 0,
+        "level4": 0,
+        "level5": 0
+      },
+      "costUpgrade": {
+        "level1": 25,
+        "level2": 50,
+        "level3": 75,
+        "level4": 100
+      }
+    },
+    {
+      "id": 4,
+      "name": "Casino",
+      "cooldown": 0,
+      "goldEarn": {
+        "min": 0,
+        "max": {
+          "level1": 50,
+          "level2": 150,
+          "level3": 300,
+          "level4": 600,
+          "level5": 1000
+        }
+      },
+      "goldLost": {
+        "level1": 50,
+        "level2": 150,
+        "level3": 300,
+        "level4": 600,
+        "level5": 1000
+      },
+      "costUpgrade": {
+        "level1": 150,
+        "level2": 300,
+        "level3": 600,
+        "level4": 1000
+      }
+    }
+  ]
+}

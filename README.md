@@ -1,24 +1,19 @@
-# fake-api
+# goldfinder
 
-## Project setup
+## Correr json-server en la raiz del proyecto
+
 ```
-yarn install
+json-server --watch locaciones.json
 ```
 
-### Compiles and hot-reloads for development
+### Correr el servidor
+
 ```
 yarn serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 yarn build
 ```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
