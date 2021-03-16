@@ -8,8 +8,13 @@
         :location="location"
       ></Location>
     </div>
-    <div class="activities">
-      <p v-for="activity in activities" :key="activity.id">
+    <h2>List of Activities:</h2>
+    <div ref="activities" class="activities">
+      <p
+        v-for="activity in activities"
+        :key="activity.id"
+        :class="activity.currentClass"
+      >
         <template v-if="activity.earnsGold">
           <!-- Mensaje cuando se gana oro. -->
           Earned {{ activity.gold }} gold from the {{ activity.location }}!
@@ -45,8 +50,16 @@ export default {
   watch: {
     // Para generar array activities con las jugadas historicas
     lastPlay: function() {
-      this.activities.push({ ...this.lastPlay, id: this.activities.length });
+      this.activities.push({
+        ...this.lastPlay,
+        id: this.activities.length,
+        currentClass: this.lastPlay.earnsGold ? "win" : "lose"
+      });
     }
+  },
+  updated() {
+    // Para que siempre se muestra la ultima jugada en el cuadro de activities.
+    this.$refs.activities.scrollTop = this.$refs.activities.scrollHeight;
   },
   mounted() {
     this.getLocations();
@@ -65,17 +78,19 @@ export default {
 .activities {
   border: 1px solid #000;
   margin-top: 2em;
-  padding: 2em 3em;
+  padding: 0 3em;
   p {
-    margin-bottom: 1.4em;
-    &:first-child {
-      margin-top: 0;
-    }
-    // &:last-child {
-    //   margin-bottom: 0;
-    // }
+    padding: 0.5em 1em;
+    margin: 0.5em 0;
   }
+  min-height: 1em;
   max-height: 30vh;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+.win {
+  background-color: mediumaquamarine;
+}
+.lose {
+  background-color: rgb(216, 133, 133);
 }
 </style>

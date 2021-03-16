@@ -15,7 +15,12 @@ export default new Vuex.Store({
     },
     levels: ["level1", "level2", "level3", "level4", "level5"],
     lastPlay: null,
-    locations: null
+    locations: null,
+    isPressed: {
+      Farm: false,
+      Cave: false,
+      House: false
+    }
   },
   getters: {},
   mutations: {
@@ -24,17 +29,35 @@ export default new Vuex.Store({
     },
     SET_GOLD(state, { minEarn, maxEarn, maxLost, name }) {
       // Si earnGold = true se gana dinero, en caso contrario se pierde.
-      const earnsGold = Math.random() < 0.5;
+      let earnsGold;
+      if (name == "House") {
+        earnsGold = true;
+      } else {
+        earnsGold = Math.random() < 0.5;
+      }
       let gold;
       if (earnsGold) {
-        gold = Math.floor(Math.random() * (maxEarn - minEarn)) + minEarn;
+        gold = Math.floor(Math.random() * (maxEarn - minEarn + 1)) + minEarn;
         state.myGold += gold;
       } else {
-        gold = Math.floor(Math.random() * maxLost);
+        gold = Math.floor(Math.random() * (maxLost + 1));
         state.myGold -= gold;
       }
       // Se guardan en el store los datos de la jugada actual
       state.lastPlay = { location: name, earnsGold, gold, time: new Date() };
+
+      // Locations presionadas
+      if (name !== "Casino") {
+        // Se informa que location se acaba de presionar
+        state.isPressed[name] = true;
+      } else {
+        // Si se presiono el casino, se resetea el objeto isPressed
+        state.isPressed = {
+          Farm: false,
+          Cave: false,
+          House: false
+        };
+      }
     }
   },
   actions: {

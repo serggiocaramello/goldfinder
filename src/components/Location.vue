@@ -11,7 +11,7 @@
           :class="{ btn__findgold: !findDisabled, btn__disabled: findDisabled }"
           :disabled="findDisabled"
         >
-          Find Gold
+          {{ findButtonMsg }}
         </button>
         <button
           @click="upgradeLocation"
@@ -36,13 +36,20 @@ export default {
   name: "Location",
   data() {
     return {
-      locationName: this.location.name
+      locationName: this.location.name,
+      coolDown: this.location.cooldown,
+      currCoolDown: 0,
+      findButtonMsg: "Find Gold",
+      myTimer: null
     };
   },
   props: ["location"],
   methods: {
     ...mapActions(["getGold"]),
     findGold() {
+      // Reseteamos el contador y empezamos a correr ell timer.
+      this.currCoolDown = this.coolDown;
+      this.timer();
       // Envia al store los datos de la jugada actual
       this.getGold({
         minEarn: this.minGoldEarn,
@@ -57,6 +64,18 @@ export default {
           this.levels.indexOf(this.currentLevel) + 1
         ];
       }
+    },
+    findGoldCount() {
+      if (this.currCoolDown < 1) {
+        this.findButtonMsg = "Find Gold";
+        clearInterval(this.myTimer);
+      } else {
+        this.currCoolDown = this.currCoolDown - 1;
+        this.findButtonMsg = this.currCoolDown;
+      }
+    },
+    timer() {
+      this.myTimer = setInterval(this.findGoldCount, 100);
     }
   },
   computed: {
@@ -96,9 +115,22 @@ export default {
       return true;
     },
     findDisabled() {
-      return this.myGold < this.maxGoldLost;
+      // Conjunto de condiciones para que el boton este deshabilitado.
+      // Dinero suficiente y que no haya cooldown.
+      const commonConditions =
+        this.myGold < this.maxGoldLost || this.currCoolDown !== 0;
+      // Para Casino, haber presionado en todas las otras locaciones.
+      const casinoConditions =
+        this.isPressed.Farm == false ||
+        this.isPressed.House == false ||
+        this.isPressed.Cave == false;
+      if (this.locationName == "Casino") {
+        return commonConditions || casinoConditions;
+      } else {
+        return commonConditions;
+      }
     },
-    ...mapState(["myGold", "locationLevels", "levels"])
+    ...mapState(["myGold", "locationLevels", "levels", "isPressed"])
   }
 };
 </script>
@@ -116,6 +148,7 @@ button {
 }
 .location__container {
   border: 1px solid #000;
+  width: 25%;
 }
 .location {
   padding: 2em 3em;
@@ -129,6 +162,7 @@ button {
   padding: 0.5em 1em;
   color: #fff;
   flex-grow: 1;
+  width: 100%;
 
   &__findgold {
     background-color: teal;
